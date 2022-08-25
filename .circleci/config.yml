@@ -169,33 +169,33 @@ jobs:
       # Here's where you will add some code to rollback on failure
       - destroy-environment
 
-  # configure-infrastructure:
-  #   docker:
-  #     # Docker image here that supports Ansible
-  #     - image: python:3.10-alpine3.16
-  #   steps:
-  #     # Checkout code from git
-  #     - checkout
-  #     # Add ssh keys with fingerprint
-  #     - add_ssh_keys:
-  #         fingerprints:
-  #           - "e1:5a:a5:2b:f9:62:c8:83:ad:81:a8:6f:a9:9c:77:73"
-  #     # attach workspace
-  #     - attach_workspace:
-  #         at: ~/
-  #     - run:
-  #         name: Install dependencies
-  #         command: |
-  #           apk add --update --no-cache ansible tar gzip aws-cli openssh
-  #     - run:
-  #         name: Configure server
-  #         command: |
-  #           pwd
-  #           cd .circleci/ansible
-  #           ls -al
-  #           ansible-playbook -i inventory.txt configure-server.yml
-  #         no_output_timeout: 30m
-  #     # Here's where you will add some code to rollback on failure      
+  configure-infrastructure:
+    docker:
+      # Docker image here that supports Ansible
+      - image: python:3.10-alpine3.16
+    steps:
+      # Checkout code from git
+      - checkout
+      # Add ssh keys with fingerprint
+      - add_ssh_keys:
+          fingerprints:
+            - "e1:5a:a5:2b:f9:62:c8:83:ad:81:a8:6f:a9:9c:77:73"
+      # attach workspace
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update --no-cache ansible tar gzip aws-cli openssh
+      - run:
+          name: Configure server
+          command: |
+            pwd
+            cd .circleci/ansible
+            ls -al
+            ansible-playbook -i inventory.txt configure-server.yml
+          no_output_timeout: 30m
+      # Here's where you will add some code to rollback on failure      
 
   # run-migrations:
   #   docker:
@@ -405,8 +405,8 @@ workflows:
           filters:
             branches:
               only: [master]
-      # - configure-infrastructure:
-      #     requires: [deploy-infrastructure]
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
       # - run-migrations:
       #     requires: [configure-infrastructure]
       # - deploy-frontend:
