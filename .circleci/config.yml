@@ -219,10 +219,10 @@ jobs:
       # attach workspace
       - attach_workspace:
           at: ~/
-      # - run:
-      #     name: Install dependencies
-      #     command: |
-      #       apk add --update --no-cache ansible tar gzip aws-cli openssh
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update --no-cache ansible tar gzip aws-cli openssh
       - run:
           name: Configure server
           command: |
