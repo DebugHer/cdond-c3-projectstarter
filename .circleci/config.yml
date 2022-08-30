@@ -316,7 +316,7 @@ jobs:
             cd ..
             pwd
             ls -al
-            tar -C backend -czvf artifact.tar.gz
+            tar -C backend -czvf artifact.tar.gz .
             
             cd .circleci/ansible
             
